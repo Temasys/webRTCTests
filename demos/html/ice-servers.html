@@ -4,6 +4,9 @@
 <!-- This sample demonstrates enumeration of candidates for
      the specified STUN/TURN server. -->
 <title>ICE Candidate Gathering Demo</title>
+<object id="plugin0" type="application/x-temwebrtcplugin" width="100" height="100">
+    <param name="onload" value="pluginLoaded" />
+</object><br />
 <script src="../../base/adapter.js"></script>
 <style>
 body {
@@ -128,12 +131,23 @@ function start() {
 }
 
 function gotDescription(desc) {
-  begin = performance.now();
+  try {
+    begin = performance.now();
+  } catch (err) {
+    console.log("[Info] -- No performance variable on this browser");
+  }
   pc.setLocalDescription(desc);
 }
 
 function iceCallback(event) {
-  var elapsed = ((performance.now() - begin) / 1000).toFixed(3);
+  var elapsed;
+  try {
+    elapsed = ((performance.now() - begin) / 1000).toFixed(3);
+  }
+  catch (err) {
+    elapsed = "[Performance not available on this browser]";
+  }
+
   if (event.candidate) {
     output.value += (elapsed + ": " + event.candidate.candidate);
   } else {

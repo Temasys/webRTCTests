@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
 <!-- Load the polyfill to switch-hit between Chrome and Firefox -->
+<object id="plugin0" type="application/x-temwebrtcplugin" width="100" height="100">
+    <param name="onload" value="pluginLoaded" />
+</object><br />
 <script src='../../base/adapter.js'></script>
 <head>
 <title>PC1 SDP Munge Demo</title>
@@ -95,7 +98,8 @@ var sdpConstraints = {'mandatory': {
 refreshSources();
 
 function refreshSources() {
-  if (webrtcDetectedBrowser === 'chrome' && webrtcDetectedVersion >= 30) {
+  if (webrtcDetectedBrowser === 'chrome' && webrtcDetectedVersion >= 30
+    || TemPluginActivated) {
     MediaStreamTrack.getSources(gotSources);
   } else {
     alert('Failed to enumerate devices, you need Chrome version 30 or higher');
